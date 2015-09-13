@@ -22,6 +22,6 @@ def replace_amper(text):
 #test = "Muslims must protect religious minorities in Syria &amp; Iraq; shame on us if we don't, we wouldn't be true to the teachings of our Prophet PBUH"
 #print replace_amper(test)
 
-test = pd.read_pickle('processed_200_01')
+#test = "I'm ready for\n\ud83c\udf41\ud83c\udf41\ud83c\udf41   \ud83c\udfc8     \ud83c\udf83          \ud83d\udc7b\n\ud83c\udf41          \ud83c\udfc8\ud83c\udfc8   \ud83c\udf83         \ud83d\udc7b\n\ud83c\udf41\ud83c\udf41    \ud83c\udfc8  \ud83c\udfc8   \ud83c\udf83         \ud83d\udc7b\n\ud83c\udf41       \ud83c\udfc8\ud83c\udfc8\ud83c\udfc8  \ud83c\udf83         \ud83d\udc7b\n\ud83c\udf41      \ud83c\udfc8       \ud83c\udfc8 \ud83c\udf83\ud83c\udf83\ud83c\udf83\ud83d\udc7b\ud83d\udc7b\ud83d\udc7b"
 
-print test.head(20)
+print test.decode("utf-8", "strict")

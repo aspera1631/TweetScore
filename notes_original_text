@@ -67,3 +67,19 @@ This means we can count the total characters in each url and subtract it... righ
 For now, just add up the characters.
 
 I'm asking the wrong question about hashtags! If you compare all non-hashtag to all hashtag, the latter group is larger.
+
+
+
+
+Sunday 9/13: where are we?
+
+- we have a dataframe of relevant features for 20k tweets. 
+	- need to be able to handle more tweets
+	- need to gather more tweets
+	- need to add handling of images
+
+- can parse an input tweet into formatted html, and generate a dataframe of features
+
+- to do:
+	- start creating the front end. Input field, tweet formatting, output the dataframe and a short message.
+	- machine learning to determine importance of elements
