@@ -13,7 +13,7 @@ import seaborn as sns
 
 
 
-tweets_data_path = 'eng_200.json'
+tweets_data_path = 'eng_20k.json'
 
 tweets_data = []
 tweets_file = open(tweets_data_path, "r")
@@ -31,9 +31,13 @@ def get_ent_len(entities):
     if len(entities) > 0:
         for item in entities:
             indices = item.get("indices", [0,0])
-            len1 = indices[1] - indices[0] - 1
+            len1 = indices[1] - indices[0]
             totlen = totlen + len1
     return totlen
+
+def replace_amper(text):
+    newtext = text.replace('&amp;','&')
+    return newtext
 
 #print len(tweets_data)
 
@@ -43,13 +47,15 @@ tweets = pd.DataFrame()
 
 tweets['tw_id'] = map(lambda tweet: tweet.get("retweeted_status", tweet).get("id", {}), tweets_data)
 tweets['text'] = map(lambda tweet: tweet.get("retweeted_status", tweet).get("text", {}), tweets_data)
+# Replace '&and;' with '&'
+tweets['text'] = tweets['text'].apply(replace_amper)
 
-tweets['hashtags'] = map(lambda tweet: tweet.get("retweeted_status", tweet).get("entities",{}).get("hashtags", {}), tweets_data)
-tweets['users'] =  map(lambda tweet: tweet.get("retweeted_status", tweet).get("entities",{}).get("user_mentions", {}), tweets_data)
-tweets['urls'] = map(lambda tweet: tweet.get("retweeted_status", tweet).get("entities",{}).get("urls", {}), tweets_data)
-tweets['symbols'] = map(lambda tweet: tweet.get("retweeted_status", tweet).get("entities",{}).get("symbols", {}), tweets_data)
-tweets['media'] = map(lambda tweet: tweet.get("retweeted_status", tweet).get("entities",{}).get("media", {}), tweets_data)
-tweets['ext_ent'] = map(lambda tweet: tweet.get("retweeted_status", tweet).get("entities",{}).get("extended_entities", {}), tweets_data)
+tweets['hashtags'] = map(lambda tweet: tweet.get("retweeted_status", tweet).get("entities",{}).get("hashtags", []), tweets_data)
+tweets['users'] =  map(lambda tweet: tweet.get("retweeted_status", tweet).get("entities",{}).get("user_mentions", []), tweets_data)
+tweets['urls'] = map(lambda tweet: tweet.get("retweeted_status", tweet).get("entities",{}).get("urls", []), tweets_data)
+tweets['symbols'] = map(lambda tweet: tweet.get("retweeted_status", tweet).get("entities",{}).get("symbols", []), tweets_data)
+tweets['media'] = map(lambda tweet: tweet.get("retweeted_status", tweet).get("entities",{}).get("media", []), tweets_data)
+tweets['ext_ent'] = map(lambda tweet: tweet.get("retweeted_status", tweet).get("entities",{}).get("extended_entities", []), tweets_data)
 
 #tweets['ht_num'] = tweets.hashtags.map(len)
 tweets['ht_num'] = tweets['hashtags'].apply(len)
@@ -65,6 +71,10 @@ tweets['url_len'] = tweets['urls'].apply(get_ent_len)
 tweets['sym_len'] = tweets['symbols'].apply(get_ent_len)
 tweets['media_len'] = tweets['media'].apply(get_ent_len)
 tweets['ext_len'] = tweets['ext_ent'].apply(get_ent_len)
+
+tweets['txt_len_total'] = tweets['text'].apply(len)
+tweets['txt_len_basic'] = tweets['txt_len_total'] - tweets[['ht_len','url_len','user_len','sym_len','media_len','ext_len']].sum(axis=1)
+
 
 
 tweets['user_id'] = map(lambda tweet: tweet.get("retweeted_status", tweet).get("user", {}).get("id"), tweets_data)
@@ -83,6 +93,9 @@ tw_unique = tweets.groupby('tw_id').first()
 #tw_unique[['sym_num']].apply(+1)
 
 print tw_unique.head(40)
+
+#save in pickle format
+#tw_unique.to_pickle('processed_20k_01')
 
 #tweets_comp = tw_unique[["retweets", "followers", "ht_num"]]
 
