@@ -1,0 +1,56 @@
+Next steps:
+
+To prepare for machine learning;
+- do some exploration
+	- rts vs favories
+	- rts vs followers
+	- rts vs following
+	- followers vs following
+	- histogram of text lengths
+	- filter for english and check these trends
+
+- gather more data
+
+
+
+
+Some thoughts about features:
+- should look at text length independent of hashtags, http, and other stuff.
+- can just use followers as a feature and look at how important it is.
+	- need to check whether the follower count changes the functional form of other dependencies. if so, we just take an average.
+- look at length of hashtags and mentions
+- check twitter for policy on https, images.
+- Is there an easy way to look at tweet frequency?
+
+What is it possible to change in a single tweet?
+- number of hts
+- number of user mentions
+- number of characters (Total)
+- number of non-ht, non-user characters
+- url presence
+- pic presence
+- type of pic
+- insta or twitter pic
+- emoji
+- punctuation
+- sentiment
+- digit
+- quote
+- vid url
+- photo url
+
+
+Could we do it automatically?
+
+http uses 22 chars
+https and images count as 23 chars
+
+If retweeted, it may be truncated. Can recover the original text in retweet_status
+
+A URL of any length will be altered to 22 characters, even if the link itself is less than 22 characters long. Your character count will reflect this.
+https://support.twitter.com/articles/78124
+
+Look at all tweets that do not contain hashtags, user mentions, links. Plot retweets vs length. Then look at tweets with one url, plot retweets vs length not including url.
+
+
+How do we look at retweets vs length for tweets with no entities? Problem: when something is RTd, it embeds the original user as an entity. Of those tweets that are retweets, look at the retweet_info whatever. Check whether that has any entities. FIrst we should check whether there are any tweets that have no entities. 
