@@ -8,20 +8,19 @@ import matplotlib.pyplot as plt
 import seaborn as sns
 
 # Load data
-tweets = pd.read_pickle('processed_20k_01')
+tweets = pd.read_pickle('processed_20k_03')
 
-len_plot = tweets[['txt_len_basic', 'retweets']]
+len_plot = tweets[['txt_len_total', 'txt_len_basic', 'retweets']]
 
-'''
+
 # print retweets vs length
-ax = sns.regplot(x="txt_len_basic", y="retweets", data=len_plot, fit_reg=False)
+ax = sns.regplot(x="txt_len_total", y="retweets", data=len_plot, fit_reg=False)
 ax.set(xlabel='Text length', ylabel='retweets')
 ax.set_yscale('log')
 plt.show()
-'''
 
-sorted1 = tweets.sort('txt_len_basic', ascending=0)
-print sorted1['text'][642174673116119040]
+sorted1 = tweets.sort('txt_len_total', ascending=0)
+print sorted1['text']
 
 
 

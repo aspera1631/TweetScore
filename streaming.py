@@ -24,7 +24,7 @@ def main():
     # Optionally track certain tweets. Not compatible with stream.sample()
     track = ["..."]
 
-    listen = SListener(api, 'test')
+    listen = SListener(api, 'data')
     # Call the stream class
     stream = tweepy.Stream(auth, listen)
 

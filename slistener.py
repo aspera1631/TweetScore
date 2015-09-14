@@ -4,7 +4,7 @@ from tweepy import StreamListener
 import json, time, sys
 
 # Creates a file with at most max_tweets tweets
-max_tweets = 20000;
+max_tweets = 100000;
 
 # This is an instance of the StreamListener class
 class SListener(StreamListener):
@@ -14,7 +14,7 @@ class SListener(StreamListener):
         self.api = api
         # Counts the recorded tweets
         self.counter = 0
-        # adds a prefix to each tweet. Not really needed for my analysis, but I left it.
+        # file prefix
         self.fprefix = fprefix
         # Build the output
         self.output = open(fprefix + '.' + time.strftime('%Y%m%d-%H%M%S') + '.json', 'w')
@@ -42,7 +42,7 @@ class SListener(StreamListener):
         # First, convert the tweet to json format so we can parse it
         stat_json = json.loads(status)
         # If it's in english
-        if stat_json.get("lang") == "en":
+        if stat_json.get("retweeted_status", stat_json).get("lang") == "en":
             # record the tweet and a newline
             self.output.write(status + "\n")
             # Increment the counter

@@ -3,11 +3,32 @@ __author__ = 'bdeutsch'
 import numpy as np
 import pandas as pd
 import twitter_text as tt
+import json
 from ttp import ttp
+import re
+#tweet = "@burnettedmond, \u003ca you now support #IvoWertzel's #testtag tweet parser! https://github.com/edburnett/"
 
 
+test = 'People with New Orleans \U0001f60d\U0001f60d'
+def emoji_txt(text):
+    m = re.findall('\\\U.{8}', text)
+    if m:
+        return len(m)
+    else: return 0
+
+len1 = emoji_txt(test)
+print len1
+
+#tweets['text'] = map(lambda tweet: tweet.get("retweeted_status", tweet).get("text", {}), tweet)
+
+'''
 p = ttp.Parser()
-result = p.parse("@burnettedmond, you now support #IvoWertzel's #testtag tweet parser! https://github.com/edburnett/")
+result = p.parse(tweet)
+
+tweet_tt = tt.TwitterText(tweet)
+print tweet_tt.text
+'''
+
 
 '''
 print "Reply: \n" + result.reply + "\n"
@@ -31,7 +52,7 @@ print "HTML: \n" + result.html
 '''
 
 df = pd.DataFrame()
-tweet = "@burnettedmond, you now support #IvoWertzel's #testtag tweet parser! http://github.com/edburnett/ https://github.com/edburnett/"
+#tweet = "@burnettedmond, you now support #IvoWertzel's #testtag tweet parser! http://github.com/edburnett/ https://github.com/edburnett/"
 
 
 def get_len(list):
@@ -84,5 +105,5 @@ def tweet_features(df, tweet):
 
 
 
-df = tweet_features(df, tweet)
-print df[["txt_len_tot", "txt_len_basic"]]
+#df = tweet_features(df, tweet)
+#print df[["txt_len_tot", "txt_len_basic"]]
