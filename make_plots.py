@@ -21,173 +21,50 @@ def sql_to_df(database, table):
 
 df = sql_to_df("TweetScore", "twitter")
 
+## Plot retweets vs basic text length
 
-# Retweets vs basic length
-ax = sns.pointplot(x="txt_len_basic", y="retweets", data=df, fit_reg=False)
+# Take log of retweets
+df["rt_log"] = df["retweets"].apply(lambda tweet: np.log10(tweet + 1))
+
+
+
+
+# Bin the data by text length
+df_bins_txt = df.groupby(pd.cut(df["txt_len_total"], bins=15, labels=False)).mean()
+
+df_bins_fol = df.groupby(pd.cut(df["txt_len_total"], bins=10, labels=False)).mean()
+
+
+'''
+# log(RTs) vs basic length
+sns.set_context("talk", font_scale=1)
+ax = sns.pointplot(x=df_bins.index, y=df_bins["rt_log"], fit_reg=False)
 ax.set(xlabel='Basic text length', ylabel='retweets')
-#ax.set_yscale('log')
+##ax.set_yscale('log')
 plt.show()
-
-
-
-
-
-
-
+'''
 
 
 '''
-# print retweets vs length
-ax = sns.regplot(x="txt_len_total", y="retweets", data=len_plot, fit_reg=False)
-ax.set(xlabel='Text length', ylabel='retweets')
-ax.set_yscale('log')
+# log (RTs) vs total length
+sns.set_context("talk", font_scale=1)
+ax = sns.pointplot(x=df_bins.index, y=df_bins["rt_log"], fit_reg=False)
+ax.set(xlabel='Basic text length', ylabel='retweets')
+##ax.set_yscale('log')
 plt.show()
 '''
 
 '''
-# print retweets vs length, pointplot
-ax = sns.pointplot(x="txt_len_total", y="retweets", data=tweets, ci=None)
-ax.set(xlabel='Text length', ylabel='retweets')
-ax.set_yscale('log')
+# log (RTs) vs followers
+sns.set_context("talk", font_scale=1)
+ax = sns.pointplot(x=df_bins_fol["followers"], y=df_bins_fol["rt_log"], fit_reg=False)
+ax.set(xlabel='Number of followers', ylabel='log(rewteets + 1)')
+##ax.set_yscale('log')
 plt.show()
 '''
 
-#log-log plot of retweets vs followers
-'''
-tweetplot = pd.DataFrame()
-tweetplot["followers_log"] = tweets["followers"].apply(lambda tweet: np.log10(tweet + 1))
-tweetplot["retweets_log"] = tweets["retweets"].apply(lambda tweet: np.log10(tweet + 1))
-ax = sns.regplot(x="followers_log", y="retweets_log", data=tweetplot)
-ax.set(xlabel='Number of followers', ylabel='retweets')
-#ax.set_yscale('log')
-#ax.set_xscale('log')
-plt.show()
-'''
-
-tweetplot = pd.DataFrame()
-tweetplot["followers_log"] = tweets["followers"].apply(lambda tweet: np.log10(tweet + 1))
-tweetplot["retweets_log"] = tweets["retweets"].apply(lambda tweet: np.log10(tweet + 1))
-
-sns.set(style="ticks")
-ax = sns.jointplot(x=tweets["followers"]+1, y=tweets["retweets"]+1, kind='hex', color="#4CB391", joint_kws={'bins':'log', 'xscale':'log', 'yscale':'log'})
-#ax.set(xlabel='Number of followers', ylabel='retweets')
-#ax.set_yscale('log')
-#ax.set_xscale('log')
-plt.show()
 
 
-#sorted1 = tweets.sort('txt_len_total', ascending=0)
-#print sorted1['text']
-
-
-
-# print retweets vs hashtags
-
-
-
-
-
-
-# Print pairplot
-#ax = sns.pairplot(tweets_comp)
-#ax.set(xlabel='Log(Followers + 1)', ylabel='Log(Rewteets + 1)', ylim=(1, 1000000), xlim=(1, 1000000))
-#ax.set_xscale('log')
-#ax.set_yscale('log')
-
-
-#print tweets_comp.head()
-
-# use this one if you want to see the retweeted text including "RT"
-#tweets['text'] = map(lambda tweet: tweet.get("text", {}), tweets_data)
-
-'''
-# select only tweets with no hashtags, user mentions, or links
-tweets_plain = tweets[(tweets["ht_num"] == 0) & (tweets["url_num"] == 0) & (tweets["media_num"] == 0)]
-# plot retweets vs tweet length
-sns.set_context("talk", font_scale=1)
-plt.figure(figsize=(11, 8))
-ax = sns.regplot(x="txt_len", y="retweets", data=tweets_plain, fit_reg=False)
-ax.set(xlabel='Text length', ylabel='log(Retweets + 1)')
-ax.set_yscale('log')
-'''
-
-
-#pd.options.display.max_rows = 200
-#print tweets
-
-# plot retweets vs tweet length
-#sns.set_context("talk", font_scale=1)
-#plt.figure(figsize=(11, 8))
-#ax = sns.regplot(x="txt_len", y="retweets", data=tweets, fit_reg=False)
-##ax = sns.lmplot(x="txt_len", y="retweets", data=tweets, x_estimator=np.mean, fit_reg=False);
-#ax.set(xlabel='Text length', ylabel='log(Retweets + 1)', xlim=(0, 150), ylim=(1, 100000))
-#ax.set_yscale('log')
-
-# create plot of hashtags vs retweets
-#sns.set_context("talk", font_scale=1)
-#plt.figure(figsize=(11, 8))
-#ax = sns.regplot(x="ht_num", y="retweets", data=tweets, fit_reg=False)
-##ax = sns.lmplot(x="txt_len", y="retweets", data=tweets, x_estimator=np.mean, fit_reg=False);
-#ax.set(xlabel='Number of hashtags', ylabel='log(Retweets + 1)', ylim=(1, 1000000), xlim=(-.5,11))
-#ax.set_yscale('log')
-
-
-# create plot of hashtags vs user mentions
-#sns.set_context("talk", font_scale=1)
-#plt.figure(figsize=(11, 8))
-#ax = sns.regplot(x="ht_num", y="user_num", data=tweets, fit_reg=False)
-#ax.set(xlabel='Number of hashtags', ylabel='Number of user mentions', ylim=(-.5, 12), xlim=(-.5, 11))
-
-"""
-# create plot of retweets vs favorites
-sns.set_context("talk", font_scale=1)
-plt.figure(figsize=(8, 8))
-ax = sns.regplot(x="favorites", y="retweets", data=tweets, fit_reg=False)
-ax.set(xlabel='Log(Favorites + 1)', ylabel='Log(Retweets + 1)')
-ax.set_xscale('log')
-ax.set_yscale('log')
-"""
-
-'''
-# create plot of retweets vs number of followers
-sns.set_context("talk", font_scale=1)
-plt.figure(figsize=(8, 8))
-ax = sns.regplot(x="followers", y="retweets", data=tweets, fit_reg=False)
-ax.set(xlabel='Log(Followers + 1)', ylabel='Log(Rewteets + 1)', ylim=(1, 1000000), xlim=(1, 1000000))
-ax.set_xscale('log')
-ax.set_yscale('log')
-'''
-
-'''
-# select only tweets in a certain follower number bin
-df2 = tweets[(tweets["followers"] > 50000) & (tweets["followers"] <= 100000)]
-print df2
-# Make a histogram of rewteets for fixed number of followers
-sns.set_context("talk", font_scale=1)
-plt.figure(figsize=(8, 8))
-ax = sns.distplot(np.log(df2[["retweets"]]), kde=False)
-ax.set(xlabel="Log(Retweets + 1)", ylabel="Population")
-'''
-
-'''
-# create plot of retweets vs number of followers
-sns.set_context("talk", font_scale=1)
-plt.figure(figsize=(8, 8))
-ax = sns.regplot(x="followers", y="retweets", data=tweets, fit_reg=False)
-ax.set(xlabel='Log(Followers + 1)', ylabel='Log(Rewteets + 1)', ylim=(1, 1000000), xlim=(1, 1000000))
-ax.set_xscale('log')
-ax.set_yscale('log')
-'''
-
-'''
-# create plot of retweets vs number of followers
-sns.set_context("talk", font_scale=1)
-plt.figure(figsize=(8, 8))
-ax = sns.pairplot(tweets)
-#ax.set(xlabel='Log(Followers + 1)', ylabel='Log(Rewteets + 1)', ylim=(1, 1000000), xlim=(1, 1000000))
-#ax.set_xscale('log')
-#ax.set_yscale('log')
-'''
 
 #print tweets
 #print df
