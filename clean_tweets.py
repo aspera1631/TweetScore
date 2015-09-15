@@ -10,11 +10,12 @@ import re
 
 # partly from http://adilmoujahid.com/posts/2014/07/twitter-analytics/
 # Imports the tweets into a dataframe, only taking relevant columns. If it's a retweet, use the origninal text instead of retweeted text.
-
+# Use this to convert from Tweet json files to pickle files.
 
 # Define path to raw tweet file
 #tweets_data_path = 'eng_20k.json'
-tweets_data_path = "eng_20k.json"
+#tweets_data_path = "eng_20k.json"
+tweets_data_path = "data_3.json"
 
 # Load tweets as json into a nested dictionary
 tweets_data = []
@@ -88,9 +89,9 @@ tweets['emo_num'] = map(lambda tweet: emoji_txt(str(tweet)), tweets_data)
 tweets['ht_num'] = tweets['hashtags'].apply(len)
 tweets['user_num'] = tweets['users'].apply(len)
 tweets['url_num'] = tweets['urls'].apply(len)
-tweets['sym_num'] = tweets['symbols'].apply(len)
-tweets['media_num'] = tweets['media'].apply(len)
-tweets['ext_num'] = tweets['ext_ent'].apply(len)
+tweets['sym_num'] = tweets['symbols'].apply(len)                            # stuff like Coke or Pepsi
+tweets['media_num'] = tweets['media'].apply(len)                            # Twitter photos
+tweets['ext_num'] = tweets['ext_ent'].apply(len)                            # Multi-photos or videos
 
 # find the total length of all hashtags, etc.
 tweets['emo_len'] = tweets['emo_num'].apply(get_emo_len)
@@ -120,7 +121,57 @@ tweets['favorites'] = map(lambda tweet: tweet.get("retweeted_status", {}).get("f
 tw_unique = tweets.groupby('tw_id').first()
 
 # (optional) print some of the tweets
-print tw_unique[["txt_len_total", 'txt_len_basic', "retweets"]].head(20)
+print tw_unique.head(20)
+
+#features = tw_unique['tw_id']
+features = tw_unique[["emo_num", "ht_num", "user_num", "url_num", "sym_num", "media_num", "ext_num", "txt_len_total", "txt_len_basic", "user_id", "followers", "retweets", "favorites"]]
 
 #(optional) save in pickle format
-tw_unique.to_pickle('processed_20k_03')
+features.to_pickle('features_03')
+
+
+# Fields are:
+# tw_id:        Unique tweet ID supplied by Twitter
+# text:         Full text of the original tweet
+# hashtags:     List of all hashtag entity data (no '#' symbol)
+# users:        List of user mentions (no '@' symbol)
+# urls          List of all url data
+# symbols:      List of symbol data (like Coke or Pepsi symbols)
+# media:        Twitter Picture entities
+# ext_ent:      Extended entities, including multi-pictures and videos
+# emo_num:      Number of emoji
+# ht_num:       Number of hashtags
+# user_num:     Number of user mentions in original tweet
+# url_num:      Number of URLs in tweet
+# sym_num:      Number of symbols
+# media_num:    Number of media (twitter picture) elements
+# ext_num:      Number of extended elements
+# emo_len:      Length of emoji in parsed data (just 2x emo_num)
+# ht_len:       Length of all hashtags
+# user_len:     Length of all user mentions
+# url_len:      Length of all URLs (22 or 23 char each)
+# sym_len:      Length of all symbols
+# media_len:    Length of all media elements
+# ext_len:      Length of all extended entities
+# txt_len_total Length of tweet
+# txt_len_basic Length of simple text in tweet
+# user_id:      Screen name of user for original tweet
+# followers:    Number of followers of user
+# retweets:     (max) Number of retweets for this tweet_id
+# favorites:    (max) Number of favorites for this tweet_id
+
+# Fields recorded in processed DataFrame:
+# tw_id:        Unique tweet ID supplied by Twitter
+# emo_num:      Number of emoji
+# ht_num:       Number of hashtags
+# user_num:     Number of user mentions in original tweet
+# url_num:      Number of URLs in tweet
+# sym_num:      Number of symbols
+# media_num:    Number of media (twitter picture) elements
+# ext_num:      Number of extended elements
+# txt_len_total Length of tweet
+# txt_len_basic Length of simple text in tweet
+# user_id:      Screen name of user for original tweet
+# followers:    Number of followers of user
+# retweets:     (max) Number of retweets for this tweet_id
+# favorites:    (max) Number of favorites for this tweet_id

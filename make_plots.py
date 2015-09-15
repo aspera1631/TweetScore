@@ -9,18 +9,57 @@ import seaborn as sns
 
 # Load data
 tweets = pd.read_pickle('processed_20k_03')
+#'processed_20k_03' is 20k tweets in english. Fields are:
+# tw_id:        Unique tweet ID supplied by Twitter
+# text:         Full text of the original tweet
+# hashtags:     List of all hashtag entity data (no '#' symbol)
+# users:        List of user mentions (no '@' symbol)
+# urls          List of all url data
+# symbols:      List of symbol data (like Coke or Pepsi symbols)
+# media:        Twitter Picture entities
+# ext_ent:      Extended entities, including multi-pictures and videos
+# emo_num:      Number of emoji
+# ht_num:       Number of hashtags
+# user_num:     Number of user mentions in original tweet
+# url_num:      Number of URLs in tweet
+# sym_num:      Number of symbols
+# media_num:    Number of media (twitter picture) elements
+# ext_num:      Number of extended elements
+# emo_len:      Length of emoji in parsed data (just 2x emo_num)
+# ht_len:       Length of all hashtags
+# user_len:     Length of all user mentions
+# url_len:      Length of all URLs (22 or 23 char each)
+# sym_len:      Length of all symbols
+# media_len:    Length of all media elements
+# ext_len:      Length of all extended entities
+# txt_len_total Length of tweet
+# txt_len_basic Length of simple text in tweet
+# user_id:      Screen name of user for original tweet
+# followers:    Number of followers of user
+# retweets:     (max) Number of retweets for this tweet_id
+# favorites:    (max) Number of favorites for this tweet_id
 
 len_plot = tweets[['txt_len_total', 'txt_len_basic', 'retweets']]
 
-
+'''
 # print retweets vs length
 ax = sns.regplot(x="txt_len_total", y="retweets", data=len_plot, fit_reg=False)
 ax.set(xlabel='Text length', ylabel='retweets')
 ax.set_yscale('log')
 plt.show()
+'''
 
-sorted1 = tweets.sort('txt_len_total', ascending=0)
-print sorted1['text']
+
+
+# print retweets vs length, pointplot
+ax = sns.pointplot(x="txt_len_total", y="retweets", data=len_plot, ci=None)
+ax.set(xlabel='Text length', ylabel='retweets')
+ax.set_yscale('log')
+plt.show()
+
+
+#sorted1 = tweets.sort('txt_len_total', ascending=0)
+#print sorted1['text']
 
 
 
