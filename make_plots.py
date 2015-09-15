@@ -6,40 +6,35 @@ import pandas as pd
 import matplotlib as mpl
 import matplotlib.pyplot as plt
 import seaborn as sns
+import MySQLdb
+
+
+def sql_to_df(database, table):
+    con = MySQLdb.connect(host='localhost', user='root', passwd='', db=database)
+
+    df = pd.read_sql_query("select * from %s" % table, con, index_col=None, coerce_float=True, params=None, parse_dates=None, chunksize=None)
+
+    return df
 
 # Load data
-tweets = pd.read_pickle('processed_20k_03')
-#'processed_20k_03' is 20k tweets in english. Fields are:
-# tw_id:        Unique tweet ID supplied by Twitter
-# text:         Full text of the original tweet
-# hashtags:     List of all hashtag entity data (no '#' symbol)
-# users:        List of user mentions (no '@' symbol)
-# urls          List of all url data
-# symbols:      List of symbol data (like Coke or Pepsi symbols)
-# media:        Twitter Picture entities
-# ext_ent:      Extended entities, including multi-pictures and videos
-# emo_num:      Number of emoji
-# ht_num:       Number of hashtags
-# user_num:     Number of user mentions in original tweet
-# url_num:      Number of URLs in tweet
-# sym_num:      Number of symbols
-# media_num:    Number of media (twitter picture) elements
-# ext_num:      Number of extended elements
-# emo_len:      Length of emoji in parsed data (just 2x emo_num)
-# ht_len:       Length of all hashtags
-# user_len:     Length of all user mentions
-# url_len:      Length of all URLs (22 or 23 char each)
-# sym_len:      Length of all symbols
-# media_len:    Length of all media elements
-# ext_len:      Length of all extended entities
-# txt_len_total Length of tweet
-# txt_len_basic Length of simple text in tweet
-# user_id:      Screen name of user for original tweet
-# followers:    Number of followers of user
-# retweets:     (max) Number of retweets for this tweet_id
-# favorites:    (max) Number of favorites for this tweet_id
+#tweets = pd.read_pickle('processed_20k_03')
 
-len_plot = tweets[['txt_len_total', 'txt_len_basic', 'retweets']]
+df = sql_to_df("TweetScore", "twitter")
+
+
+# Retweets vs basic length
+ax = sns.pointplot(x="txt_len_basic", y="retweets", data=df, fit_reg=False)
+ax.set(xlabel='Basic text length', ylabel='retweets')
+#ax.set_yscale('log')
+plt.show()
+
+
+
+
+
+
+
+
 
 '''
 # print retweets vs length
@@ -49,12 +44,35 @@ ax.set_yscale('log')
 plt.show()
 '''
 
-
-
+'''
 # print retweets vs length, pointplot
-ax = sns.pointplot(x="txt_len_total", y="retweets", data=len_plot, ci=None)
+ax = sns.pointplot(x="txt_len_total", y="retweets", data=tweets, ci=None)
 ax.set(xlabel='Text length', ylabel='retweets')
 ax.set_yscale('log')
+plt.show()
+'''
+
+#log-log plot of retweets vs followers
+'''
+tweetplot = pd.DataFrame()
+tweetplot["followers_log"] = tweets["followers"].apply(lambda tweet: np.log10(tweet + 1))
+tweetplot["retweets_log"] = tweets["retweets"].apply(lambda tweet: np.log10(tweet + 1))
+ax = sns.regplot(x="followers_log", y="retweets_log", data=tweetplot)
+ax.set(xlabel='Number of followers', ylabel='retweets')
+#ax.set_yscale('log')
+#ax.set_xscale('log')
+plt.show()
+'''
+
+tweetplot = pd.DataFrame()
+tweetplot["followers_log"] = tweets["followers"].apply(lambda tweet: np.log10(tweet + 1))
+tweetplot["retweets_log"] = tweets["retweets"].apply(lambda tweet: np.log10(tweet + 1))
+
+sns.set(style="ticks")
+ax = sns.jointplot(x=tweets["followers"]+1, y=tweets["retweets"]+1, kind='hex', color="#4CB391", joint_kws={'bins':'log', 'xscale':'log', 'yscale':'log'})
+#ax.set(xlabel='Number of followers', ylabel='retweets')
+#ax.set_yscale('log')
+#ax.set_xscale('log')
 plt.show()
 
 
@@ -178,3 +196,36 @@ ax = sns.pairplot(tweets)
 
 #counts1 = tweets[["ht_num", "user_num"]]
 #ax = sns.heatmap(counts1)
+
+
+
+
+#'processed_20k_03' is 20k tweets in english. Fields are:
+# tw_id:        Unique tweet ID supplied by Twitter
+# text:         Full text of the original tweet
+# hashtags:     List of all hashtag entity data (no '#' symbol)
+# users:        List of user mentions (no '@' symbol)
+# urls          List of all url data
+# symbols:      List of symbol data (like Coke or Pepsi symbols)
+# media:        Twitter Picture entities
+# ext_ent:      Extended entities, including multi-pictures and videos
+# emo_num:      Number of emoji
+# ht_num:       Number of hashtags
+# user_num:     Number of user mentions in original tweet
+# url_num:      Number of URLs in tweet
+# sym_num:      Number of symbols
+# media_num:    Number of media (twitter picture) elements
+# ext_num:      Number of extended elements
+# emo_len:      Length of emoji in parsed data (just 2x emo_num)
+# ht_len:       Length of all hashtags
+# user_len:     Length of all user mentions
+# url_len:      Length of all URLs (22 or 23 char each)
+# sym_len:      Length of all symbols
+# media_len:    Length of all media elements
+# ext_len:      Length of all extended entities
+# txt_len_total Length of tweet
+# txt_len_basic Length of simple text in tweet
+# user_id:      Screen name of user for original tweet
+# followers:    Number of followers of user
+# retweets:     (max) Number of retweets for this tweet_id
+# favorites:    (max) Number of favorites for this tweet_id
