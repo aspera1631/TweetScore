@@ -16,7 +16,7 @@ def replace_codes(text):
 
 # Counts the number of emoji in a tweet
 def emoji_txt(text):
-    m = re.findall('\\\U.{8}', text)
+    m = re.findall('(\\\U\w{8}|\\\u\w{4})', text)
     #m = re.findall('', text.encode)
     if m:
         return len(m)
@@ -183,7 +183,9 @@ def sql_to_df(database, table):
     return df
 
 
-#pickle_to_sql('input_file')
+#clean_tweets('data_7.json', 'features_07')
+
+#pickle_to_sql('features_07')
 
 
 

@@ -34,6 +34,8 @@ df_bins_txt = df.groupby(pd.cut(df["txt_len_total"], bins=15, labels=False)).mea
 
 df_bins_fol = df.groupby(pd.cut(df["txt_len_total"], bins=10, labels=False)).mean()
 
+df_bins_emo = df.groupby(pd.cut(df["emo_num"], bins=20, labels=False)).mean()
+
 
 '''
 # log(RTs) vs basic length
@@ -63,7 +65,35 @@ ax.set(xlabel='Number of followers', ylabel='log(rewteets + 1)')
 plt.show()
 '''
 
+'''
+# Plot log(RTs) vs hashtag number
+df_ht = df.groupby("ht_num").mean()
+sns.set_context("talk", font_scale=1)
+ax = sns.pointplot(x=df_ht.index, y=df_ht["rt_log"], fit_reg=False)
+ax.set(xlabel='Number of hashtags', ylabel='log(Rewteets + 1)')
+##ax.set_yscale('log')
+plt.show()
+'''
 
+'''
+# Plot log(RTs) vs user mentions
+df_user = df.groupby("user_num").mean()
+sns.set_context("talk", font_scale=1)
+ax = sns.pointplot(x=df_user.index, y=df_user["rt_log"], fit_reg=False)
+ax.set(xlabel='Number of user mentions', ylabel='log(Rewteets + 1)')
+##ax.set_yscale('log')
+plt.show()
+'''
+
+'''
+# Plot log(RTs) vs number of emoji
+df_emo = df.groupby("emo_num").mean()
+sns.set_context("talk", font_scale=1)
+ax = sns.pointplot(x=df_emo.index, y=df_emo["rt_log"], fit_reg=False)
+ax.set(xlabel='Number of emoji', ylabel='log(Rewteets + 1)', xlim=(0,30), ylim=(0,1.5))
+##ax.set_yscale('log')
+plt.show()
+'''
 
 
 #print tweets
