@@ -29,9 +29,9 @@ def make_bins(max_lbl, step):
     return [bins, labels_out]
 
 # Load data
-#tweets = pd.read_pickle('processed_20k_03')
+df = pd.read_pickle('features_test')
 
-df = sql_to_df("TweetScore", "twitter")
+#df = sql_to_df("TweetScore", "twitter")
 
 ## Plot retweets vs basic text length
 
@@ -45,7 +45,7 @@ df["fol_log"] = df["followers"].apply(lambda tweet: np.log10(tweet + 1))
 # Bin the data by text length
 df_bins_txt = df.groupby(pd.cut(df["txt_len_total"], bins=15, labels=False)).mean()
 
-df_bins_emo = df.groupby(pd.cut(df["emo_num"], bins=20, labels=False)).mean()
+#df_bins_emo = df.groupby(pd.cut(df["emo_num"], bins=20, labels=False)).mean()
 
 #df_emo_test = df.groupby(pd.cut(df["emo_num"], bins=20, labels=False))
 
@@ -64,6 +64,7 @@ ax.set(xlabel='Total tweet length', ylabel='log(Rewteets + 1)')
 plt.show()
 '''
 
+'''
 bin_info = make_bins(140,5)
 df["txt_tot_bins"] = pd.cut(df["txt_len_total"], bins=bin_info[0], labels=False)
 
@@ -73,6 +74,7 @@ ax = sns.lmplot(x="txt_tot_bins", y="rt_log", data=df, x_estimator=np.mean, fit_
 ax.set(xlabel='Total tweet length', ylabel='log(Rewteets + 1)')
 #ax.set_yscale('log')
 plt.show()
+'''
 
 '''
 ## Plot log(RTs) vs length of text
@@ -166,7 +168,7 @@ ax.set(xlabel='Number of user mentions', ylabel='log(Rewteets + 1)')
 plt.show()
 '''
 
-'''
+
 # Plot log(RTs) vs number of emoji
 sns.set_context("talk", font_scale=1)
 df.sort(columns="emo_num")
@@ -174,7 +176,7 @@ ax = sns.lmplot(x="emo_num", y="rt_log", data=df, x_estimator=np.mean, fit_reg=F
 ax.set(xlabel='Number of emoji', ylabel='log(Rewteets + 1)')
 #ax.set_yscale('log')
 plt.show()
-'''
+
 
 
 #print tweets

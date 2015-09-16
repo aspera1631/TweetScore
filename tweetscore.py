@@ -14,13 +14,21 @@ def replace_codes(text):
     newtext = text.replace('&amp;','&').replace('&gt;','>').replace('&lt;','<')
     return newtext
 
+
 # Counts the number of emoji in a tweet
 def emoji_txt(text):
-    m = re.findall('(\\\U\w{8}|\\\u\w{4})', text)
-    #m = re.findall('', text.encode)
+    # search for retweet
+    #print text
+    m = re.search('''text(.+?), u'\w''', text)
     if m:
-        return len(m)
-    else: return 0
+        n = re.findall('(\\\U\w{8}|\\\u\w{4})', m.group(1))
+        if n:
+            return len(n)
+        else:
+            return 0
+    else:
+        return 0
+
 
 # Finds total length of emoji in a tweet
 def get_emo_len(number):
@@ -115,11 +123,11 @@ def clean_tweets(filein, fileout):
     #(optional) save in pickle format
     features.to_pickle(fileout)
 
-    return True
+    return tw_unique
 
 
 
-def pickle_to_sql(filein):
+def pickle_to_sql(filein, tableName, mode):
     ## pickle_to_sql: open a file in pickle format, load into an SQL database.
 
     # open file and load into a dataframe
@@ -129,7 +137,7 @@ def pickle_to_sql(filein):
     con = MySQLdb.connect(host='localhost', user='root', passwd='', db='TweetScore')  # may need to add some other options to connect
 
     # Convert to to sql
-    tweets.to_sql(con=con, name='twitter', if_exists='append', flavor='mysql')
+    tweets.to_sql(con=con, name=tableName, if_exists=mode, flavor='mysql')
 
     return True
 
@@ -183,10 +191,27 @@ def sql_to_df(database, table):
     return df
 
 
-#clean_tweets('data_7.json', 'features_07')
+#clean_tweets('data_1.json', 'features_1')
+#clean_tweets('data_2.json', 'features_2')
+#clean_tweets('data_3.json', 'features_3')
+#clean_tweets('data_4.json', 'features_4')
+#clean_tweets('data_5.json', 'features_5')
+#clean_tweets('data_6.json', 'features_6')
+#clean_tweets('data_7.json', 'features_7')
+#clean_tweets('data_8.json', 'features_8')
 
-#pickle_to_sql('features_07')
+#print df["emo_num"]
 
+#pickle_to_sql('features_1', 'twitter', 'append')
+#pickle_to_sql('features_2')
+#pickle_to_sql('features_3')
+#pickle_to_sql('features_4')
+#pickle_to_sql('features_5')
+#pickle_to_sql('features_6')
+#pickle_to_sql('features_7')
+#pickle_to_sql('features_8')
+
+pickle_to_sql('binned_tweets', 'binned', 'replace')
 
 
 
