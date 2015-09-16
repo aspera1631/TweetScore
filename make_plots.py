@@ -16,6 +16,18 @@ def sql_to_df(database, table):
 
     return df
 
+# Create bins and labels for a data set
+def make_bins(max_lbl, step):
+    range1 = np.arange(0, max_lbl + step, step)
+    bins = np.append((range1 - step/2), 1000)
+    labels = []
+    for item in range1:
+        labels.append(str(int(item)))
+    labels.pop()
+    labels.append(str(range1[-1]) + "+")
+    labels_out = tuple(labels)
+    return [bins, labels_out]
+
 # Load data
 #tweets = pd.read_pickle('processed_20k_03')
 
@@ -52,7 +64,17 @@ ax.set(xlabel='Total tweet length', ylabel='log(Rewteets + 1)')
 plt.show()
 '''
 
+bin_info = make_bins(140,5)
+df["txt_tot_bins"] = pd.cut(df["txt_len_total"], bins=bin_info[0], labels=False)
 
+sns.set_context("talk", font_scale=1)
+df.sort(columns="txt_tot_bins")
+ax = sns.lmplot(x="txt_tot_bins", y="rt_log", data=df, x_estimator=np.mean, fit_reg=False)
+ax.set(xlabel='Total tweet length', ylabel='log(Rewteets + 1)')
+#ax.set_yscale('log')
+plt.show()
+
+'''
 ## Plot log(RTs) vs length of text
 # Create bins and labels for follwoer counts
 labels = range(0, max(df["txt_len_basic"]), 5)
@@ -64,6 +86,7 @@ ax = sns.lmplot(x="txt_basic_bins", y="rt_log", data=df, x_estimator=np.mean, fi
 ax.set(xlabel='Simple text characters', ylabel='log(Rewteets + 1)')
 #ax.set_yscale('log')
 plt.show()
+'''
 
 
 '''
@@ -110,6 +133,28 @@ ax.set(xlabel='Number of hashtags', ylabel='log(Rewteets + 1)')
 #ax.set_yscale('log')
 plt.show()
 '''
+
+'''
+# Plot log(RTs) vs number of urls
+sns.set_context("talk", font_scale=1)
+df.sort(columns="url_num")
+ax = sns.lmplot(x="url_num", y="rt_log", data=df, x_estimator=np.mean, fit_reg=False)
+ax.set(xlabel='Number of URLs', ylabel='log(Rewteets + 1)')
+#ax.set_yscale('log')
+plt.show()
+'''
+
+'''
+# Plot log(RTs) vs number of pictures
+sns.set_context("talk", font_scale=1)
+df.sort(columns="media_num")
+ax = sns.lmplot(x="media_num", y="rt_log", data=df, x_estimator=np.mean, fit_reg=False)
+ax.set(xlabel='Number of Pictures', ylabel='log(Rewteets + 1)')
+#ax.set_yscale('log')
+plt.show()
+'''
+
+
 
 '''
 # Plot log(RTs) vs number of user mentions
