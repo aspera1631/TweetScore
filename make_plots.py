@@ -26,21 +26,65 @@ df = sql_to_df("TweetScore", "twitter")
 # Take log of retweets
 df["rt_log"] = df["retweets"].apply(lambda tweet: np.log10(tweet + 1))
 
+df["fol_log"] = df["followers"].apply(lambda tweet: np.log10(tweet + 1))
 
 
 
 # Bin the data by text length
 df_bins_txt = df.groupby(pd.cut(df["txt_len_total"], bins=15, labels=False)).mean()
 
-df_bins_fol = df.groupby(pd.cut(df["txt_len_total"], bins=10, labels=False)).mean()
-
 df_bins_emo = df.groupby(pd.cut(df["emo_num"], bins=20, labels=False)).mean()
+
+#df_emo_test = df.groupby(pd.cut(df["emo_num"], bins=20, labels=False))
+
+
+'''
+## Plot log(RTs) vs length of text
+# Create bins and labels for follwoer counts
+labels = range(0, max(df["txt_len_total"]), 5)
+df["txt_tot_bins"] = pd.cut(df["txt_len_total"], range(0, max(df["txt_len_total"])+5, 5), right=False, labels=labels)
+
+sns.set_context("talk", font_scale=1)
+df.sort(columns="txt_tot_bins")
+ax = sns.lmplot(x="txt_tot_bins", y="rt_log", data=df, x_estimator=np.mean, fit_reg=False)
+ax.set(xlabel='Total tweet length', ylabel='log(Rewteets + 1)')
+#ax.set_yscale('log')
+plt.show()
+'''
+
+
+## Plot log(RTs) vs length of text
+# Create bins and labels for follwoer counts
+labels = range(0, max(df["txt_len_basic"]), 5)
+df["txt_basic_bins"] = pd.cut(df["txt_len_basic"], range(0, max(df["txt_len_basic"])+5, 5), right=False, labels=labels)
+
+sns.set_context("talk", font_scale=1)
+df.sort(columns="txt_basic_bins")
+ax = sns.lmplot(x="txt_basic_bins", y="rt_log", data=df, x_estimator=np.mean, fit_reg=False)
+ax.set(xlabel='Simple text characters', ylabel='log(Rewteets + 1)')
+#ax.set_yscale('log')
+plt.show()
+
+
+'''
+## Plot log(RTs) vs number of followers
+# Create bins and labels for follwoer counts
+labels = range(0, int(np.ceil(max(df["fol_log"]))), 1)
+df["fol_bins"] = pd.cut(df["fol_log"], range(0, int(np.ceil(max(df["fol_log"])))+1, 1), right=False, labels=labels)
+
+sns.set_context("talk", font_scale=1)
+df.sort(columns="fol_bins")
+ax = sns.lmplot(x="fol_bins", y="rt_log", data=df, x_estimator=np.mean, fit_reg=False)
+ax.set(xlabel='log(Followers + 1)', ylabel='log(Rewteets + 1)')
+#ax.set_yscale('log')
+plt.show()
+'''
 
 
 '''
 # log(RTs) vs basic length
 sns.set_context("talk", font_scale=1)
-ax = sns.pointplot(x=df_bins.index, y=df_bins["rt_log"], fit_reg=False)
+ax = sns.pointplot(x=df_bins_txt.index, y=df_bins_txt["rt_log"], fit_reg=False)
 ax.set(xlabel='Basic text length', ylabel='retweets')
 ##ax.set_yscale('log')
 plt.show()
@@ -56,48 +100,40 @@ ax.set(xlabel='Basic text length', ylabel='retweets')
 plt.show()
 '''
 
-'''
-# log (RTs) vs followers
-sns.set_context("talk", font_scale=1)
-ax = sns.pointplot(x=df_bins_fol["followers"], y=df_bins_fol["rt_log"], fit_reg=False)
-ax.set(xlabel='Number of followers', ylabel='log(rewteets + 1)')
-##ax.set_yscale('log')
-plt.show()
-'''
 
 '''
-# Plot log(RTs) vs hashtag number
-df_ht = df.groupby("ht_num").mean()
+# Plot log(RTs) vs number of hashtag
 sns.set_context("talk", font_scale=1)
-ax = sns.pointplot(x=df_ht.index, y=df_ht["rt_log"], fit_reg=False)
+df.sort(columns="ht_num")
+ax = sns.lmplot(x="ht_num", y="rt_log", data=df, x_estimator=np.mean, fit_reg=False)
 ax.set(xlabel='Number of hashtags', ylabel='log(Rewteets + 1)')
-##ax.set_yscale('log')
+#ax.set_yscale('log')
 plt.show()
 '''
 
 '''
-# Plot log(RTs) vs user mentions
-df_user = df.groupby("user_num").mean()
+# Plot log(RTs) vs number of user mentions
 sns.set_context("talk", font_scale=1)
-ax = sns.pointplot(x=df_user.index, y=df_user["rt_log"], fit_reg=False)
+df.sort(columns="user_num")
+ax = sns.lmplot(x="user_num", y="rt_log", data=df, x_estimator=np.mean, fit_reg=False)
 ax.set(xlabel='Number of user mentions', ylabel='log(Rewteets + 1)')
-##ax.set_yscale('log')
+#ax.set_yscale('log')
 plt.show()
 '''
 
 '''
 # Plot log(RTs) vs number of emoji
-df_emo = df.groupby("emo_num").mean()
 sns.set_context("talk", font_scale=1)
-ax = sns.pointplot(x=df_emo.index, y=df_emo["rt_log"], fit_reg=False)
-ax.set(xlabel='Number of emoji', ylabel='log(Rewteets + 1)', xlim=(0,30), ylim=(0,1.5))
-##ax.set_yscale('log')
+df.sort(columns="emo_num")
+ax = sns.lmplot(x="emo_num", y="rt_log", data=df, x_estimator=np.mean, fit_reg=False)
+ax.set(xlabel='Number of emoji', ylabel='log(Rewteets + 1)')
+#ax.set_yscale('log')
 plt.show()
 '''
 
 
 #print tweets
-#print df
+#print df.head()
 
 # create plot of retweets vs
 

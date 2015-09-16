@@ -3,7 +3,6 @@
   <component name="ChangeListManager">
     <list default="true" id="d76174a9-66c8-4dcb-970e-e6c1504d0424" name="Default" comment="">
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/make_plots.py" afterPath="$PROJECT_DIR$/make_plots.py" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/tweetscore.py" afterPath="$PROJECT_DIR$/tweetscore.py" />
     </list>
     <ignored path="TweetScore.iws" />
     <ignored path=".idea/workspace.xml" />
@@ -37,8 +36,8 @@
       <file leaf-file-name="make_plots.py" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/make_plots.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.54198474">
-              <caret line="104" column="26" selection-start-line="104" selection-start-column="26" selection-end-line="104" selection-end-column="26" />
+            <state vertical-scroll-proportion="0.35114503">
+              <caret line="50" column="21" selection-start-line="50" selection-start-column="21" selection-end-line="50" selection-end-column="21" />
               <folding>
                 <element signature="e#25#36#0" expanded="true" />
               </folding>
@@ -577,10 +576,18 @@
         </state>
       </provider>
     </entry>
+    <entry file="file:///usr/local/lib/python2.7/site-packages/matplotlib/cbook.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.2952381">
+          <caret line="1812" column="0" selection-start-line="1812" selection-start-column="0" selection-end-line="1812" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/make_plots.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.54198474">
-          <caret line="104" column="26" selection-start-line="104" selection-start-column="26" selection-end-line="104" selection-end-column="26" />
+        <state vertical-scroll-proportion="0.35114503">
+          <caret line="50" column="21" selection-start-line="50" selection-start-column="21" selection-end-line="50" selection-end-column="21" />
           <folding>
             <element signature="e#25#36#0" expanded="true" />
           </folding>
