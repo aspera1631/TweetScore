@@ -6,7 +6,7 @@ import pandas as pd
 import MySQLdb
 import matplotlib.pyplot as plt
 from sklearn.preprocessing import PolynomialFeatures
-
+from sklearn import linear_model
 
 def sql_to_df(database, table):
     con = MySQLdb.connect(host='localhost', user='root', passwd='', db=database)
@@ -15,9 +15,14 @@ def sql_to_df(database, table):
 
     return df
 
+
+feature = "media_num"
+
+
 df = sql_to_df('TweetScore', 'binned')[0:10000]
-df = df[df['ht_num'] > -1]
-#print df.tail(5)
+df = df[df[feature] > -1]
+
+
 
 
 print(__doc__)
@@ -26,28 +31,22 @@ print(__doc__)
 # Code source: Jaques Grobler
 # License: BSD 3 clause
 
-from sklearn import datasets, linear_model
-
 # load targets
-data_Y = df["rt_log"][0:100].values
+data_Y = df["rt_log"][0:10000].values
 
 # Use only one feature
-data_X = df["txt_len_basic"][0:100].values[:, np.newaxis]
+data_X = df[feature][0:10000].values[:, np.newaxis]
 
 
 poly = PolynomialFeatures(2)
 X_new = poly.fit_transform(data_X)
 
-print X_new
-
-#poly = PolynomialFeatures(interaction_only=True)
-#poly.fit_transform(X)
+#print X_new
 
 # Create linear regression object
 regr = linear_model.LinearRegression()
 
 # Train the model using the training sets
-#regr.fit(data_X_train, data_y_train)
 regr.fit(X_new, data_Y)
 
 
@@ -60,13 +59,15 @@ print("Residual sum of squares: %.2f"
 print('Variance score: %.2f' % regr.score(X_new, data_Y))
 
 
+x_axis = np.array(range(max(data_X)+2))[:, np.newaxis]
+y_pred = regr.predict(poly.fit_transform(x_axis))
 # Plot outputs
 plt.scatter(data_X, data_Y,  color='black')
-#plt.plot(range(28), regr.predict(data_X), color='blue',
-         linewidth=3)
+plt.plot(x_axis, y_pred, color='blue', linewidth=3)
 
 #plt.xticks(())
 #plt.yticks(())
 
 plt.show()
 
+print regr.predict(X_new)

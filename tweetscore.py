@@ -77,7 +77,7 @@ def clean_tweets(filein, fileout):
 
     # get lists of all info for all hashtags, urls, etc. If none, this is an empty set.
     tweets['hashtags'] = map(lambda tweet: tweet.get("retweeted_status", tweet).get("entities", {}).get("hashtags", []), tweets_data)
-    tweets['users'] =  map(lambda tweet: tweet.get("retweeted_status", tweet).get("entities", {}).get("user_mentions", []), tweets_data)
+    tweets['users'] = map(lambda tweet: tweet.get("retweeted_status", tweet).get("entities", {}).get("user_mentions", []), tweets_data)
     tweets['urls'] = map(lambda tweet: tweet.get("retweeted_status", tweet).get("entities", {}).get("urls", []), tweets_data)
     tweets['symbols'] = map(lambda tweet: tweet.get("retweeted_status", tweet).get("entities", {}).get("symbols", []), tweets_data)
     tweets['media'] = map(lambda tweet: tweet.get("retweeted_status", tweet).get("entities", {}).get("media", []), tweets_data)

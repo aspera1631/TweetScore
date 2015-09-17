@@ -76,8 +76,8 @@ def bin_data(df):
     # [0,1,2,3,4,5,6+]
     emo_max = 6
     emo_step = 1
-    emo_bins = make_bins(len_bas_max, emo_step)[0]
-    emo_labels = make_bins(len_bas_max, emo_step)[1]
+    emo_bins = make_bins(emo_max, emo_step)[0]
+    emo_labels = make_bins(emo_max, emo_step)[1]
 
 
 
@@ -115,7 +115,10 @@ def pickle_to_sql(filein, tableName, mode):
     return True
 
 
-#df = import_data()
-#feat_bins = bin_data(df)
+df = import_data()
+#feat_bins = bin_data(df).dropna()
 #con = MySQLdb.connect(host='localhost', user='root', passwd='', db='TweetScore')
-#feat_bins[120001:].to_sql(con=con, name="binned", if_exists="append", flavor='mysql')
+#feat_bins[130001:].to_sql(con=con, name="binned", if_exists="append", flavor='mysql')
+
+
+# we're losing a ton of rows to this NaN problem.
