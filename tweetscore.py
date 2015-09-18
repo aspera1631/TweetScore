@@ -190,6 +190,8 @@ def sql_to_df(database, table):
 
     return df
 
+pickle_to_sql('recommendations', 'recommendations', 'replace')
+
 
 #clean_tweets('data_1.json', 'features_1')
 #clean_tweets('data_2.json', 'features_2')
@@ -211,7 +213,7 @@ def sql_to_df(database, table):
 #pickle_to_sql('features_7')
 #pickle_to_sql('features_8')
 
-pickle_to_sql('binned_tweets', 'binned', 'replace')
+#pickle_to_sql('binned_tweets', 'binned', 'replace')
 
 
 

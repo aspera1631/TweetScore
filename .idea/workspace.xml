@@ -2,12 +2,10 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="d76174a9-66c8-4dcb-970e-e6c1504d0424" name="Default" comment="">
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/gradient.py" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/re_index_goodness.py" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/recommendations.py" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/polyfit2.py" afterPath="$PROJECT_DIR$/polyfit2.py" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/gradient.py" afterPath="$PROJECT_DIR$/gradient.py" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/re_Test.py" afterPath="$PROJECT_DIR$/re_Test.py" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/recommendations.py" afterPath="$PROJECT_DIR$/recommendations.py" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/tweetscore.py" afterPath="$PROJECT_DIR$/tweetscore.py" />
     </list>
     <ignored path="TweetScore.iws" />
     <ignored path=".idea/workspace.xml" />
@@ -27,84 +25,7 @@
     <favorites_list name="TweetScore" />
   </component>
   <component name="FileEditorManager">
-    <leaf>
-      <file leaf-file-name="length_test.py" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/length_test.py">
-          <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.0">
-              <caret line="62" column="36" selection-start-line="62" selection-start-column="36" selection-end-line="62" selection-end-column="36" />
-              <folding>
-                <element signature="e#25#43#0" expanded="true" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="re_index_goodness.py" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/re_index_goodness.py">
-          <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.0">
-              <caret line="8" column="0" selection-start-line="8" selection-start-column="0" selection-end-line="8" selection-end-column="0" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="gradient.py" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/gradient.py">
-          <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.0">
-              <caret line="53" column="39" selection-start-line="53" selection-start-column="39" selection-end-line="53" selection-end-column="39" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="recommendations.py" pinned="false" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/recommendations.py">
-          <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.4642857">
-              <caret line="42" column="43" selection-start-line="42" selection-start-column="43" selection-end-line="42" selection-end-column="43" />
-              <folding>
-                <element signature="e#25#43#0" expanded="true" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="tweetscore.py" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/tweetscore.py">
-          <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="-17.074074">
-              <caret line="88" column="34" selection-start-line="88" selection-start-column="34" selection-end-line="88" selection-end-column="34" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="rebin_dataframe.py" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/rebin_dataframe.py">
-          <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.0">
-              <caret line="97" column="4" selection-start-line="97" selection-start-column="4" selection-end-line="97" selection-end-column="81" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="polyfit2.py" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/polyfit2.py">
-          <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.0">
-              <caret line="88" column="0" selection-start-line="88" selection-start-column="0" selection-end-line="88" selection-end-column="0" />
-              <folding>
-                <element signature="e#179#231#0" expanded="true" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-    </leaf>
+    <leaf />
   </component>
   <component name="FileTemplateManagerImpl">
     <option name="RECENT_TEMPLATES">
@@ -139,13 +60,13 @@
         <option value="$PROJECT_DIR$/learning.py" />
         <option value="$PROJECT_DIR$/rebin_dataframe.py" />
         <option value="$PROJECT_DIR$/polyfit.py" />
-        <option value="$PROJECT_DIR$/tweetscore.py" />
         <option value="$PROJECT_DIR$/length_test.py" />
         <option value="$PROJECT_DIR$/polyfit2.py" />
-        <option value="$PROJECT_DIR$/re_Test.py" />
         <option value="$PROJECT_DIR$/re_index_goodness.py" />
         <option value="$PROJECT_DIR$/gradient.py" />
         <option value="$PROJECT_DIR$/recommendations.py" />
+        <option value="$PROJECT_DIR$/re_Test.py" />
+        <option value="$PROJECT_DIR$/tweetscore.py" />
       </list>
     </option>
   </component>
@@ -217,24 +138,7 @@
       <recent name="$USER_HOME$/app" />
     </key>
   </component>
-  <component name="RunManager" selected="Python.recommendations">
-    <configuration default="false" name="polyfit2" type="PythonConfigurationType" factoryName="Python" temporary="true">
-      <option name="INTERPRETER_OPTIONS" value="" />
-      <option name="PARENT_ENVS" value="true" />
-      <envs>
-        <env name="PYTHONUNBUFFERED" value="1" />
-      </envs>
-      <option name="SDK_HOME" value="" />
-      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$" />
-      <option name="IS_MODULE_SDK" value="true" />
-      <option name="ADD_CONTENT_ROOTS" value="true" />
-      <option name="ADD_SOURCE_ROOTS" value="true" />
-      <module name="TweetScore" />
-      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/polyfit2.py" />
-      <option name="PARAMETERS" value="" />
-      <option name="SHOW_COMMAND_LINE" value="false" />
-      <method />
-    </configuration>
+  <component name="RunManager" selected="Python.tweetscore">
     <configuration default="false" name="re_Test" type="PythonConfigurationType" factoryName="Python" temporary="true">
       <option name="INTERPRETER_OPTIONS" value="" />
       <option name="PARENT_ENVS" value="true" />
@@ -299,6 +203,23 @@
       <option name="ADD_SOURCE_ROOTS" value="true" />
       <module name="TweetScore" />
       <option name="SCRIPT_NAME" value="$PROJECT_DIR$/recommendations.py" />
+      <option name="PARAMETERS" value="" />
+      <option name="SHOW_COMMAND_LINE" value="false" />
+      <method />
+    </configuration>
+    <configuration default="false" name="tweetscore" type="PythonConfigurationType" factoryName="Python" temporary="true">
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <envs>
+        <env name="PYTHONUNBUFFERED" value="1" />
+      </envs>
+      <option name="SDK_HOME" value="" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$" />
+      <option name="IS_MODULE_SDK" value="true" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <module name="TweetScore" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/tweetscore.py" />
       <option name="PARAMETERS" value="" />
       <option name="SHOW_COMMAND_LINE" value="false" />
       <method />
@@ -426,19 +347,19 @@
       <method />
     </configuration>
     <list size="5">
-      <item index="0" class="java.lang.String" itemvalue="Python.polyfit2" />
-      <item index="1" class="java.lang.String" itemvalue="Python.re_Test" />
-      <item index="2" class="java.lang.String" itemvalue="Python.gradient" />
-      <item index="3" class="java.lang.String" itemvalue="Python.re_index_goodness" />
-      <item index="4" class="java.lang.String" itemvalue="Python.recommendations" />
+      <item index="0" class="java.lang.String" itemvalue="Python.re_Test" />
+      <item index="1" class="java.lang.String" itemvalue="Python.gradient" />
+      <item index="2" class="java.lang.String" itemvalue="Python.re_index_goodness" />
+      <item index="3" class="java.lang.String" itemvalue="Python.recommendations" />
+      <item index="4" class="java.lang.String" itemvalue="Python.tweetscore" />
     </list>
     <recent_temporary>
       <list size="5">
-        <item index="0" class="java.lang.String" itemvalue="Python.recommendations" />
-        <item index="1" class="java.lang.String" itemvalue="Python.gradient" />
-        <item index="2" class="java.lang.String" itemvalue="Python.re_index_goodness" />
-        <item index="3" class="java.lang.String" itemvalue="Python.re_Test" />
-        <item index="4" class="java.lang.String" itemvalue="Python.polyfit2" />
+        <item index="0" class="java.lang.String" itemvalue="Python.tweetscore" />
+        <item index="1" class="java.lang.String" itemvalue="Python.re_Test" />
+        <item index="2" class="java.lang.String" itemvalue="Python.recommendations" />
+        <item index="3" class="java.lang.String" itemvalue="Python.gradient" />
+        <item index="4" class="java.lang.String" itemvalue="Python.re_index_goodness" />
       </list>
     </recent_temporary>
   </component>
@@ -457,7 +378,7 @@
   </component>
   <component name="ToolWindowManager">
     <frame x="15" y="23" width="1256" height="737" extended-state="0" />
-    <editor active="true" />
+    <editor active="false" />
     <layout>
       <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="11" side_tool="false" content_ui="tabs" />
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
@@ -466,7 +387,7 @@
       <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.25" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
       <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.3997006" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
       <window_info id="Python Console" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32934132" sideWeight="0.5" order="10" side_tool="false" content_ui="tabs" />
-      <window_info id="Run" active="true" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.32934132" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
+      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32934132" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="2" side_tool="true" content_ui="tabs" />
       <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="8" side_tool="true" content_ui="tabs" />
       <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="9" side_tool="false" content_ui="tabs" />
@@ -637,14 +558,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/re_Test.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="19" column="44" selection-start-line="19" selection-start-column="44" selection-end-line="19" selection-end-column="44" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/polyfit2.py">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0">
@@ -652,6 +565,22 @@
           <folding>
             <element signature="e#179#231#0" expanded="true" />
           </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/gradient.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="68" column="1" selection-start-line="68" selection-start-column="1" selection-end-line="68" selection-end-column="1" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/rebin_dataframe.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.60714287">
+          <caret line="97" column="4" selection-start-line="97" selection-start-column="4" selection-end-line="97" selection-end-column="81" />
+          <folding />
         </state>
       </provider>
     </entry>
@@ -665,22 +594,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/tweetscore.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="-17.074074">
-          <caret line="88" column="34" selection-start-line="88" selection-start-column="34" selection-end-line="88" selection-end-column="34" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/rebin_dataframe.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="97" column="4" selection-start-line="97" selection-start-column="4" selection-end-line="97" selection-end-column="81" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/re_index_goodness.py">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0">
@@ -689,21 +602,29 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/gradient.py">
+    <entry file="file://$PROJECT_DIR$/recommendations.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="53" column="39" selection-start-line="53" selection-start-column="39" selection-end-line="53" selection-end-column="39" />
+        <state vertical-scroll-proportion="0.6785714">
+          <caret line="41" column="63" selection-start-line="41" selection-start-column="63" selection-end-line="41" selection-end-column="63" />
+          <folding>
+            <element signature="e#25#43#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/tweetscore.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="1.3435115">
+          <caret line="192" column="21" selection-start-line="192" selection-start-column="21" selection-end-line="192" selection-end-column="21" />
           <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/recommendations.py">
+    <entry file="file://$PROJECT_DIR$/re_Test.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.4642857">
-          <caret line="42" column="43" selection-start-line="42" selection-start-column="43" selection-end-line="42" selection-end-column="43" />
-          <folding>
-            <element signature="e#25#43#0" expanded="true" />
-          </folding>
+        <state vertical-scroll-proportion="0.2857143">
+          <caret line="9" column="17" selection-start-line="9" selection-start-column="17" selection-end-line="9" selection-end-column="17" />
+          <folding />
         </state>
       </provider>
     </entry>

@@ -66,4 +66,4 @@ for ind in ts.index:
     if count%1000 == 0:
         print count
 
-gradient.to_pickle("gradient_df")
+#gradient.to_pickle("gradient_df")
