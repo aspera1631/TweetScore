@@ -49,7 +49,7 @@ def get_txt_len(dfrow):
     len1 = dfrow.dot(weight)
     return len1
 
-# for each possible tweet, craete a row of a dataframe
+# for each possible tweet, create a row of a dataframe
 test = cartesian((emo_vals, ht_vals, media_vals, txt_bas_vals, url_vals, user_vals))
 #test = [[141,0,0,0,0,0]]
 
@@ -60,5 +60,5 @@ tweetspace["len_tot"] = tweetspace.apply(get_txt_len, axis = 1)
 
 legal_tweets = tweetspace[tweetspace["len_tot"] <= 140]
 
-legal_tweets.to_pickle("legal_tweets")
+legal_tweets.to_pickle("legal_tweets_3")
 

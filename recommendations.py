@@ -2,12 +2,12 @@ __author__ = 'bdeutsch'
 
 import numpy as np
 import pandas as pd
-
+import MySQLdb
 
 ## Given the gradient, output a file with the top n recommendations
 
-# Import gradient
-gradient = pd.read_pickle('gradient_df').fillna(-100)
+# Import gradient, replace NaN with a very negative gradient (will always avoid those transitions)
+gradient = pd.read_pickle('gradient_df_3').fillna(-100)
 
 # Create a new dataframe with same indices as gradient, but 3 columns corresponding to each index
 recommendations = pd.DataFrame(columns=["msg1", "msg2", "msg3"], index=gradient.index)
@@ -19,29 +19,46 @@ msg_tbl["messages"] = ["Add an emoji", "Add a hashtag", "Add an image", "Add a b
 
 
 
-
 # Sort each row of the gradient by column (axis 1). Return the first n column names that are not nan.
+
+# Generate list of indices
 ind1 = gradient.index.values
+# For each index
 for i in ind1:
     # reorder columns in this row
     new_columns = gradient.columns[gradient.ix[i].argsort()]
+    # ordered row. If we have NaN here it messes up the ordering.
     ord_row = gradient.loc[i][reversed(new_columns)]
 
-    # Filter for only positive recommendations
+    # Filter for only positive recommendations. Kills old NaN values
     pos_steps = ord_row[ord_row.values > 0]
 
     # Build a message list
     msg_list = []
+    # For each message
     for j in [0,1,2]:
+        # Try to find the message corresponding to the first three values.
         try:
             msg_ind = pos_steps.index.values[j]
             msg = msg_tbl.loc[msg_ind].values[0]
         except:
+            # if there aren't three positive values, report empty strings.
             msg = ''
         msg_list.append(msg)
+    # Build the recommendation dataframe.
     recommendations.loc[i][["msg1", "msg2", "msg3"]] = msg_list
 
-#recommendations.to_pickle("recommendations")
+# Write to pickle file
+recommendations.to_pickle("recommendations_2")
+
+# Write to SQL
+con = MySQLdb.connect(host='localhost', user='root', passwd='', db='TweetScore')  # may need to add some other options to connect
+tableName = 'recommendations3'
+recommendations.to_sql(con=con, name=tableName, if_exists="replace", flavor='mysql')
+
+
+
+
 '''
 rownum = 900
 new_columns = gradient.columns[gradient.ix[ind1[rownum]].argsort()]

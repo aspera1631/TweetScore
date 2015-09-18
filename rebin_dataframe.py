@@ -116,9 +116,12 @@ def pickle_to_sql(filein, tableName, mode):
 
 
 df = import_data()
-#feat_bins = bin_data(df).dropna()
-#con = MySQLdb.connect(host='localhost', user='root', passwd='', db='TweetScore')
-#feat_bins[130001:].to_sql(con=con, name="binned", if_exists="append", flavor='mysql')
+feat_bins = bin_data(df).dropna()
+con = MySQLdb.connect(host='localhost', user='root', passwd='', db='TweetScore')
+
+print len(df.index)
+print len(feat_bins.index)
+#feat_bins[90001:].to_sql(con=con, name="binned", if_exists="append", flavor='mysql')
 
 
-# we're losing a ton of rows to this NaN problem.
+# we're losing ~6k rows out of 172k to this NaN problem.
