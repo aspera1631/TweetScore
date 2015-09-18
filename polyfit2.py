@@ -28,11 +28,12 @@ df = sql_to_df('TweetScore', 'binned')
 # License: BSD 3 clause
 
 # load targets
-data_Y = df["rt_log"][0:row_num].values
+data_Y = df["rt_log"].values
 
 # Use only one feature
 #data_X = df[feature][0:10000].values[:, np.newaxis]
-data_X = df[["emo_num", "ht_num", "media_num", "txt_len_basic", "url_num", "user_num"]][0:row_num]
+data_X = df[["emo_num", "ht_num", "media_num", "txt_len_basic", "url_num", "user_num"]].values
+#data_X = df[["emo_num", "ht_num"]].values
 
 # Turn the linear features into polynomial features
 poly = PolynomialFeatures(3)
@@ -65,58 +66,30 @@ print('Variance score: %.2f' % regr.score(X_new, data_Y))
 
 #plt.show()
 
-print regr.predict(X_new)
+
 
 
 
 ## use the regression result to create the goodness function
 
-
-def cartesian(arrays, out=None):
-
-    arrays = [np.asarray(x) for x in arrays]
-    dtype = arrays[0].dtype
-
-    n = np.prod([x.size for x in arrays])
-    if out is None:
-        out = np.zeros([n, len(arrays)], dtype=dtype)
-
-    m = n / arrays[0].size
-    out[:,0] = np.repeat(arrays[0], m)
-    if arrays[1:]:
-        cartesian(arrays[1:], out=out[0:m,1:])
-        for j in xrange(1, arrays[0].size):
-            out[j*m:(j+1)*m,1:] = out[0:m,1:]
-    return out
-
-'''
-emo_vals = range(0,7)
-ht_vals = range(0,7)
-media_vals = range(0,3)
-txt_bas_vals = range(0,29)
-url_vals = range(0,3)
-user_vals = range(0,7)
-'''
-# generate the space of all possible tweets
-emo_vals = range(0,2)
-ht_vals = range(0,2)
-media_vals = range(0,2)
-txt_bas_vals = range(0,2)
-url_vals = range(0,2)
-user_vals = range(0,2)
-
-# for each possible tweet, craete a row of a dataframe
-test = cartesian((emo_vals, ht_vals, media_vals, txt_bas_vals, url_vals, user_vals))
-# label the columns
-tweetspace = pd.DataFrame(test, columns=["emo_num", "ht_num", "media_num", "txt_len_basic", "url_num", "user_num"])
+# load all possible tweets <= 140 characters
+tweetspace = pd.read_pickle('legal_tweets')
 
 # calcuate the goodness column (-cost)
 goodness = []
+
+cols=["emo_num", "ht_num", "media_num", "txt_len_basic", "url_num", "user_num"]
+
+test = regr.predict(poly.fit_transform(tweetspace[cols].loc[1].values))
+
 for ind in tweetspace.index:
-    goodness.append(regr.predict(poly.fit_transform(tweetspace.loc[ind])))
+    goodness.append(regr.predict(poly.fit_transform(tweetspace[cols].loc[ind].values))[0])
+    if ind%1000 == 0:
+        print ind
+
 # put the results in the dataframe
 tweetspace["goodness"] = goodness
-print tweetspace.tail()
+#print tweetspace.tail()
 
-
-## calculate a gradient
+cols2 = ["emo_num", "ht_num", "media_num", "txt_len_basic", "url_num", "user_num", "goodness"]
+tweetspace[cols2].to_pickle("goodness_func")
