@@ -18,7 +18,6 @@ def replace_codes(text):
 # Counts the number of emoji in a tweet
 def emoji_txt(text):
     # search for retweet
-    #print text
     m = re.search('''text(.+?), u'\w''', text)
     if m:
         n = re.findall('(\\\U\w{8}|\\\u\w{4})', m.group(1))
@@ -29,6 +28,16 @@ def emoji_txt(text):
     else:
         return 0
 
+#def emoji_txt(text):
+#    # search for retweet
+#    #print text
+#    text1 = text.encode('unicode-escape')
+#    n = re.findall('(\\\U\w{8}|\\\u\w{4})', text1)
+#    if n:
+#        return len(n)
+#    else:
+#        return 0
+
 
 # Finds total length of emoji in a tweet
 def get_emo_len(number):
@@ -36,11 +45,17 @@ def get_emo_len(number):
 
 # Function to count the total length of all hashtags, etc
 def get_ent_len(entities):
+    # if the entity contains emoji, don't count them in the length. We already counted them.
     totlen = 0
     if len(entities) > 0:
         for item in entities:
-            indices = item.get("indices", [0,0])
-            len1 = indices[1] - indices[0]
+            text = item.get("text", "")
+            m = re.findall('(\\\U\w{8}|\\\u\w{4})', text.encode('unicode-escape'))
+            if m:
+                len1 = 0
+            else:
+                indices = item.get("indices", [0,0])
+                len1 = indices[1] - indices[0]
             totlen = totlen + len1
     return totlen
 
@@ -84,7 +99,7 @@ def clean_tweets(filein, fileout):
     tweets['ext_ent'] = map(lambda tweet: tweet.get("retweeted_status", tweet).get("entities", {}).get("extended_entities", []), tweets_data)
 
     # Count the hashtags, etc.
-    tweets['emo_num'] = map(lambda tweet: emoji_txt(str(tweet)), tweets_data)
+    tweets['emo_num'] = map(lambda tweet: emoji_txt(str(tweet).encode("unicode-escape")), tweets_data)
     tweets['ht_num'] = tweets['hashtags'].apply(len)
     tweets['user_num'] = tweets['users'].apply(len)
     tweets['url_num'] = tweets['urls'].apply(len)
@@ -102,9 +117,9 @@ def clean_tweets(filein, fileout):
     tweets['ext_len'] = tweets['ext_ent'].apply(get_ent_len)
 
     # Get the length of the text, and then subtract all of the entity lengths.
-    tweets['txt_len_total'] = tweets['text'].apply(len) - tweets['emo_num']  #accounts for double-counting of emoji chars
-    tweets['txt_len_basic'] = tweets['txt_len_total'] \
-                              - tweets[['ht_len','url_len','user_len','sym_len','media_len','ext_len','emo_num']].sum(axis=1)
+    tweets['txt_len_total'] = tweets['text'].apply(len)  #accounts for double-counting of emoji chars
+    tweets['txt_len_basic'] = tweets['txt_len_total'] - \
+                              tweets[['ht_len', 'user_len', 'sym_len', 'media_len', 'ext_len', 'emo_num']].sum(axis=1)
 
     # get the user ID and the number of followers of that user
     tweets['user_id'] = map(lambda tweet: tweet.get("retweeted_status", tweet).get("user", {}).get("screen_name"), tweets_data)
@@ -156,6 +171,8 @@ def count_https(list):
     return count
 
 def tweet_features(df, tweet):
+    # THIS VERSION IS DEPRECATED. USE VERSION FROM WEB APP
+
     # run a tweet through the parser
     p = ttp.Parser()
     result = p.parse(tweet)
@@ -190,36 +207,67 @@ def sql_to_df(database, table):
 
     return df
 
-pickle_to_sql('recommendations', 'recommendations', 'replace')
 
 
-#clean_tweets('data_1.json', 'features_1')
-#clean_tweets('data_2.json', 'features_2')
-#clean_tweets('data_3.json', 'features_3')
-#clean_tweets('data_4.json', 'features_4')
-#clean_tweets('data_5.json', 'features_5')
-#clean_tweets('data_6.json', 'features_6')
-#clean_tweets('data_7.json', 'features_7')
-#clean_tweets('data_8.json', 'features_8')
+#pickle_to_sql('recommendations', 'recommendations', 'replace')
+
+path = '../twitter data/raw data/'
+
+'''
+clean_tweets(path + 'data_1.json', 'features_1')
+clean_tweets(path + 'data_2.json', 'features_2')
+clean_tweets(path + 'data_3.json', 'features_3')
+clean_tweets(path + 'data_4.json', 'features_4')
+clean_tweets(path + 'data_5.json', 'features_5')
+clean_tweets(path + 'data_6.json', 'features_6')
+clean_tweets(path + 'data_7.json', 'features_7')
+clean_tweets(path + 'data_8.json', 'features_8')
+clean_tweets(path + 'data_9.json', 'features_9')
+clean_tweets(path + 'data_10.json', 'features_10')
+clean_tweets(path + 'data_11.json', 'features_11')
 
 #print df["emo_num"]
 
-#pickle_to_sql('features_1', 'twitter', 'append')
-#pickle_to_sql('features_2')
-#pickle_to_sql('features_3')
-#pickle_to_sql('features_4')
-#pickle_to_sql('features_5')
-#pickle_to_sql('features_6')
-#pickle_to_sql('features_7')
-#pickle_to_sql('features_8')
+pickle_to_sql('features_1', 'cleaned', 'append')
+pickle_to_sql('features_2', 'cleaned', 'append')
+pickle_to_sql('features_3', 'cleaned', 'append')
+pickle_to_sql('features_4', 'cleaned', 'append')
+pickle_to_sql('features_5', 'cleaned', 'append')
+pickle_to_sql('features_6', 'cleaned', 'append')
+pickle_to_sql('features_7', 'cleaned', 'append')
+pickle_to_sql('features_8', 'cleaned', 'append')
+pickle_to_sql('features_9', 'cleaned', 'append')
+pickle_to_sql('features_10', 'cleaned', 'append')
+pickle_to_sql('features_11', 'cleaned', 'append')
+'''
 
 #pickle_to_sql('binned_tweets', 'binned', 'replace')
 
 
 
-#df = sql_to_df("TweetScore", "twitter")
-#print df.head()
+# load the full data set from SQL, select unique tweets, save as pickle file.
+#df = sql_to_df("TweetScore", "cleaned")
+#tw_unique = df.groupby('tw_id').first()
+#tw_unique.to_pickle('features_all')
 
+
+# Run "rebin_dataframe" to convert full file to binned dataframe and then sql
+
+# load from SQL and write as pickle.
+#df = sql_to_df("TweetScore", "binned2")
+#df.to_pickle('binned_all')
+
+
+# plot the data to make sure it makes sense.
+
+
+# perform the fit with "get_goodness"
+
+# re-index with "re_index_goodness"
+
+# perform gradient calculation with "gradient"
+
+# Assemble recommendation list with "recommendations"
 
 
 # Fields are:

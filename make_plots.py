@@ -29,27 +29,36 @@ def make_bins(max_lbl, step):
     return [bins, labels_out]
 
 # Load data
-df = pd.read_pickle('features_test')
+df = pd.read_pickle('binned_all')
 
 #df = sql_to_df("TweetScore", "twitter")
 
 ## Plot retweets vs basic text length
 
 # Take log of retweets
-df["rt_log"] = df["retweets"].apply(lambda tweet: np.log10(tweet + 1))
-
-df["fol_log"] = df["followers"].apply(lambda tweet: np.log10(tweet + 1))
+#df["rt_log"] = df["retweets"].apply(lambda tweet: np.log10(tweet + 1))
 
 
 
-# Bin the data by text length
-df_bins_txt = df.groupby(pd.cut(df["txt_len_total"], bins=15, labels=False)).mean()
+# plot ave retweets vs emoji
 
-#df_bins_emo = df.groupby(pd.cut(df["emo_num"], bins=20, labels=False)).mean()
+def plot_fits(feature):
+    sns.set_context("talk", font_scale=1)
+    ax = sns.regplot(x=feature, y="retweets", data=df, x_estimator=np.mean, fit_reg=True, x_ci=50, scatter=True, ci=None)
+    ax = sns.regplot(x=feature, y="retweets", data=df, fit_reg=True, order=2, x_ci=50, scatter=False, ci=None)
+    ax = sns.regplot(x=feature, y="retweets", data=df, fit_reg=True, order=3, x_ci=50, scatter=False, ci=None)
+    ax = sns.regplot(x=feature, y="retweets", data=df, fit_reg=True, order=4, x_ci=50, scatter=False, ci=None)
+    #ax = sns.regplot(x="emo_num", y="retweets", data=df, fit_reg=True)
+    ax.set(xlabel=feature, ylabel='Retweets')
+    plt.show()
 
-#df_emo_test = df.groupby(pd.cut(df["emo_num"], bins=20, labels=False))
+def plot_feature(feature):
+    ax = sns.regplot(x=feature, y="retweets", data=df, x_estimator=np.mean, fit_reg=False, x_ci=50, scatter=True)
+    ax.set(xlabel=feature, ylabel='Retweets')
+    plt.show()
 
-
+plot_feature("emo_num")
+plot_feature("ht_num")
 '''
 ## Plot log(RTs) vs length of text
 # Create bins and labels for follwoer counts
@@ -168,14 +177,6 @@ ax.set(xlabel='Number of user mentions', ylabel='log(Rewteets + 1)')
 plt.show()
 '''
 
-
-# Plot log(RTs) vs number of emoji
-sns.set_context("talk", font_scale=1)
-df.sort(columns="emo_num")
-ax = sns.lmplot(x="emo_num", y="rt_log", data=df, x_estimator=np.mean, fit_reg=False)
-ax.set(xlabel='Number of emoji', ylabel='log(Rewteets + 1)')
-#ax.set_yscale('log')
-plt.show()
 
 
 

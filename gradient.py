@@ -15,7 +15,7 @@ def make_index(coord):
 
 
 # Load goodness dataframe
-ts = pd.read_pickle('goodness_ind_2')
+ts = pd.read_pickle('goodness_ind_4')
 # Create new dataframe of tweet coordinates
 coord = pd.DataFrame()
 
@@ -78,4 +78,4 @@ for ind in ts.index:
         print count
 
 # save dataframe as pickle file
-gradient.to_pickle("gradient_df_3")
+gradient.to_pickle("gradient_ord4")

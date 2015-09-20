@@ -4,9 +4,9 @@ import numpy as np
 import pandas as pd
 import MySQLdb
 
-def import_data():
+def import_data(sql_table):
     database = "TweetScore"
-    table = "twitter"
+    table = sql_table
     con = MySQLdb.connect(host='localhost', user='root', passwd='', db=database)
 
     df = pd.read_sql_query("select * from %s" % table, con, index_col=None, coerce_float=True, params=None, parse_dates=None, chunksize=None)
@@ -95,7 +95,8 @@ def bin_data(df):
     feat_bins["media_num"] = pd.cut(df["media_num"], media_bins, labels=False)
     feat_bins["emo_num"] = pd.cut(df["emo_num"], emo_bins, labels=False)
     feat_bins["url_num"] = pd.cut(df["url_num"], url_bins, labels=False)
-    feat_bins["rt_log"] = df["retweets"].apply(lambda tweet: np.log10(tweet + 1))
+    feat_bins["retweets"] = df["retweets"]
+    #feat_bins["rt_log"] = df["retweets"].apply(lambda tweet: np.log10(tweet + 1))
 
     return feat_bins
 
@@ -115,13 +116,14 @@ def pickle_to_sql(filein, tableName, mode):
     return True
 
 
-df = import_data()
+df = import_data('cleaned')
+# doesn't need to be here, but it's a safeguard
 feat_bins = bin_data(df).dropna()
 con = MySQLdb.connect(host='localhost', user='root', passwd='', db='TweetScore')
 
 print len(df.index)
 print len(feat_bins.index)
-#feat_bins[90001:].to_sql(con=con, name="binned", if_exists="append", flavor='mysql')
+#feat_bins[180001:].to_sql(con=con, name="binned2", if_exists="append", flavor='mysql')
 
 
 # we're losing ~6k rows out of 172k to this NaN problem.

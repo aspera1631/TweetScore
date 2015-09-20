@@ -18,22 +18,26 @@ def sql_to_df(database, table):
 
 
 # Import data from SQL
-df = sql_to_df('TweetScore', 'binned')
+df = sql_to_df('TweetScore', 'binned2')
 
+test_num = 50000
 
 # Code source: Jaques Grobler
 # License: BSD 3 clause
 
 # load targets
-data_Y = df["rt_log"].values
+data_Y = df["retweets"][:-test_num].values
+test_Y = df["retweets"][-test_num:].values
 
 # Load features
-data_X = df[["emo_num", "ht_num", "media_num", "txt_len_basic", "url_num", "user_num"]].values
+data_X = df[["emo_num", "ht_num", "media_num", "txt_len_basic", "url_num", "user_num"]][:-test_num].values
+test_X = df[["emo_num", "ht_num", "media_num", "txt_len_basic", "url_num", "user_num"]][-test_num:].values
 
 # Turn the linear features into polynomial features
-poly = PolynomialFeatures(3)
+poly = PolynomialFeatures(4)
 # Apply this transformation
 X_new = poly.fit_transform(data_X)
+X_new_test = poly.fit_transform(test_X)
 
 # Create linear regression object
 regr = linear_model.LinearRegression()
@@ -45,10 +49,11 @@ regr.fit(X_new, data_Y)
 # The coefficients
 print('Coefficients: \n', regr.coef_)
 # The mean square error
-print("Residual sum of squares: %.2f" % np.mean((regr.predict(X_new) - data_Y) ** 2))
+print("Residual sum of squares for training set: %.2f" % np.mean((regr.predict(X_new) - data_Y) ** 2))
+print("Residual sum of squares for test set: %.2f" % np.mean((regr.predict(X_new_test) - test_Y) ** 2))
 # Explained variance score: 1 is perfect prediction
-print('Variance score: %.2f' % regr.score(X_new, data_Y))
-
+print('Variance score for training set: %.2f' % regr.score(X_new, data_Y))
+print('Variance score for test set: %.2f' % regr.score(X_new_test, test_Y))
 # plots
 #x_axis = np.array(range(max(data_X)+2))[:, np.newaxis]
 #y_pred = regr.predict(poly.fit_transform(x_axis))
@@ -67,6 +72,8 @@ print('Variance score: %.2f' % regr.score(X_new, data_Y))
 
 # load all possible tweets <= 140 characters
 tweetspace = pd.read_pickle('legal_tweets_3')
+print tweetspace
+
 
 # calcuate the goodness column (-cost)
 goodness = []
@@ -98,5 +105,6 @@ tweetspace['desig'] = tweetspace.apply(lambda row: make_index(row), axis=1)
 ts = tweetspace.set_index("desig")
 
 #print len(ts2.index.values)
-ts.to_pickle("goodness_ind_3")
+ts.to_pickle("goodness_ord4")
 # ADD IN RE_INDEX_GOODNESS.PY
+

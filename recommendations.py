@@ -7,7 +7,7 @@ import MySQLdb
 ## Given the gradient, output a file with the top n recommendations
 
 # Import gradient, replace NaN with a very negative gradient (will always avoid those transitions)
-gradient = pd.read_pickle('gradient_df_3').fillna(-100)
+gradient = pd.read_pickle('goodness_ord4').fillna(-100000000)
 
 # Create a new dataframe with same indices as gradient, but 3 columns corresponding to each index
 recommendations = pd.DataFrame(columns=["msg1", "msg2", "msg3"], index=gradient.index)
@@ -49,11 +49,11 @@ for i in ind1:
     recommendations.loc[i][["msg1", "msg2", "msg3"]] = msg_list
 
 # Write to pickle file
-recommendations.to_pickle("recommendations_2")
+recommendations.to_pickle("recommendations4")
 
 # Write to SQL
 con = MySQLdb.connect(host='localhost', user='root', passwd='', db='TweetScore')  # may need to add some other options to connect
-tableName = 'recommendations3'
+tableName = 'recommendations4'
 recommendations.to_sql(con=con, name=tableName, if_exists="replace", flavor='mysql')
 
 

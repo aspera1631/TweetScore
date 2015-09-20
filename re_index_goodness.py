@@ -5,7 +5,7 @@ import pandas as pd
 
 
 
-ts = pd.read_pickle('goodness_2')
+ts = pd.read_pickle('goodness_ord4')
 
 
 def make_index(row):
@@ -19,4 +19,4 @@ ts['desig'] = ts.apply(lambda row: make_index(row), axis=1)
 ts2 = ts.set_index("desig")
 
 #print len(ts2.index.values)
-ts2.to_pickle("goodness_ind_2")
+ts2.to_pickle("goodness_ind_4")
