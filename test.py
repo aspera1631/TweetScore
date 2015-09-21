@@ -1,6 +1,8 @@
 __author__ = 'bdeutsch'
 
+import pandas as pd
 
-test = "BryOnTour"
 
-print test[5:9]
+df = pd.read_pickle('recommendation_prob')
+
+print df

@@ -28,20 +28,6 @@ def emoji_txt(text):
     else:
         return 0
 
-#def emoji_txt(text):
-#    # search for retweet
-#    #print text
-#    text1 = text.encode('unicode-escape')
-#    n = re.findall('(\\\U\w{8}|\\\u\w{4})', text1)
-#    if n:
-#        return len(n)
-#    else:
-#        return 0
-
-
-# Finds total length of emoji in a tweet
-def get_emo_len(number):
-    return number*2
 
 # Function to count the total length of all hashtags, etc
 def get_ent_len(entities):
@@ -59,6 +45,7 @@ def get_ent_len(entities):
             totlen = totlen + len1
     return totlen
 
+
 def clean_tweets(filein, fileout):
 
     # Define path to raw tweet file
@@ -66,15 +53,18 @@ def clean_tweets(filein, fileout):
 
     tweets_data = []
     tweets_file = open(tweets_data_path, "r")
-    count = 0
     for line in tweets_file:
         try:
             tweet = json.loads(line)
             tweets_data.append(tweet)
         except:
             continue
-            count += 1
 
+    def create_rt(retweets):
+        if retweets > 0:
+            return 1
+        else:
+            return 0
 
     # Define an empty dataframe
     tweets = pd.DataFrame()
@@ -108,7 +98,7 @@ def clean_tweets(filein, fileout):
     tweets['ext_num'] = tweets['ext_ent'].apply(len)                            # Multi-photos or videos
 
     # find the total length of all hashtags, etc.
-    tweets['emo_len'] = tweets['emo_num'].apply(get_emo_len)
+    #tweets['emo_len'] = tweets['emo_num'].apply(get_emo_len)
     tweets['ht_len'] = tweets['hashtags'].apply(get_ent_len)
     tweets['user_len'] = tweets['users'].apply(get_ent_len)
     tweets['url_len'] = tweets['urls'].apply(get_ent_len)
@@ -129,16 +119,20 @@ def clean_tweets(filein, fileout):
     tweets['retweets'] = map(lambda tweet: tweet.get("retweeted_status", {}).get("retweet_count", 0), tweets_data)
     tweets['favorites'] = map(lambda tweet: tweet.get("retweeted_status", {}).get("favorite_count", 0), tweets_data)
 
+    # assign 1 for retweeted, 0 for not.
+    tweets["rt"] = tweets["retweets"].apply(create_rt)
+
+
     # Select only one version of each tweet, with the maximum retweets
     tw_unique = tweets.groupby('tw_id').first()
 
     #features = tw_unique['tw_id']
-    features = tw_unique[["emo_num", "ht_num", "user_num", "url_num", "sym_num", "media_num", "ext_num", "txt_len_total", "txt_len_basic", "user_id", "followers", "retweets", "favorites"]]
+    features = tw_unique[["emo_num", "ht_num", "media_num", "txt_len_basic", "url_num", "user_num", "sym_num", "ext_num", "txt_len_total", "user_id", "followers", "retweets", "rt"]]
+
 
     #(optional) save in pickle format
     features.to_pickle(fileout)
-
-    return tw_unique
+    return features
 
 
 
@@ -240,6 +234,7 @@ pickle_to_sql('features_9', 'cleaned', 'append')
 pickle_to_sql('features_10', 'cleaned', 'append')
 pickle_to_sql('features_11', 'cleaned', 'append')
 '''
+# bin the tweets using rebin_df
 
 #pickle_to_sql('binned_tweets', 'binned', 'replace')
 

@@ -15,9 +15,10 @@ def make_index(coord):
 
 
 # Load goodness dataframe
-ts = pd.read_pickle('goodness_ind_4')
+ts = pd.read_pickle('goodness_prob2')
 # Create new dataframe of tweet coordinates
 coord = pd.DataFrame()
+
 
 # create new dataframe to hold the gradient
 cols = ["emo+", "ht+", "med+", "txt+", "url+", "usr+", "emo-", "ht-", "med-", "txt-", "url-", "usr-"]
@@ -33,7 +34,7 @@ for ind in ts.index:
     # get current tweet coordinates
     coord = ts.loc[ind].values[0:6]
     # Find goodness at those coordinates
-    goodness = ts.loc[ind].values[6]
+    goodness = ts.loc[ind].values[7]
     # addition loop
     gradient_row = []
     # For every possible "up" transition
@@ -43,10 +44,9 @@ for ind in ts.index:
         new_coord[feature] += 1
         # convert the new coordinate to an index
         new_ind = make_index(new_coord)
-
         # look up cost at these coordinates. If it's not there, return NaN.
         try:
-            new_goodness = ts.loc[new_ind].values[6]
+            new_goodness = ts.loc[new_ind].values[7]
         except:
             new_goodness = np.nan
         # aggregate the gradient for this row. NaN should propagate
@@ -61,10 +61,9 @@ for ind in ts.index:
         new_coord[feature] = new_coord[feature] - 2
         # convert the coordinate to an index
         new_ind = make_index(new_coord)
-
         # look up cost at these coordinates
         try:
-            new_goodness = ts.loc[new_ind].values[6]
+            new_goodness = ts.loc[new_ind].values[7]
         except:
             new_goodness = np.nan
         # aggregate the gradient for this row. NaN should propagate
@@ -77,5 +76,7 @@ for ind in ts.index:
     if count%1000 == 0:
         print count
 
+#print ts.loc["[  1.   2.   1.  10.   0.   6.]"][7]
+
 # save dataframe as pickle file
-gradient.to_pickle("gradient_ord4")
+gradient.to_pickle("gradient_prob")

@@ -88,14 +88,15 @@ def bin_data(df):
     ## Make a new datafram with binned data
     feat_bins = pd.DataFrame()
 
-    feat_bins["txt_len_total"] = pd.cut(df["txt_len_total"], len_tot_bins, labels=False)
-    feat_bins["txt_len_basic"] = pd.cut(df["txt_len_basic"], len_bas_bins, labels=False)
-    feat_bins["ht_num"] = pd.cut(df["ht_num"], ht_bins, labels=False)
-    feat_bins["user_num"] = pd.cut(df["user_num"], user_bins, labels=False)
-    feat_bins["media_num"] = pd.cut(df["media_num"], media_bins, labels=False)
     feat_bins["emo_num"] = pd.cut(df["emo_num"], emo_bins, labels=False)
+    feat_bins["ht_num"] = pd.cut(df["ht_num"], ht_bins, labels=False)
+    feat_bins["media_num"] = pd.cut(df["media_num"], media_bins, labels=False)
+    feat_bins["txt_len_basic"] = pd.cut(df["txt_len_basic"], len_bas_bins, labels=False)
     feat_bins["url_num"] = pd.cut(df["url_num"], url_bins, labels=False)
-    feat_bins["retweets"] = df["retweets"]
+    feat_bins["user_num"] = pd.cut(df["user_num"], user_bins, labels=False)
+    #feat_bins["txt_len_total"] = pd.cut(df["txt_len_total"], len_tot_bins, labels=False)
+    #feat_bins["retweets"] = df["retweets"]
+    feat_bins["rt"] = df["rt"]
     #feat_bins["rt_log"] = df["retweets"].apply(lambda tweet: np.log10(tweet + 1))
 
     return feat_bins
@@ -115,15 +116,16 @@ def pickle_to_sql(filein, tableName, mode):
 
     return True
 
-
+# import and bin
 df = import_data('cleaned')
 # doesn't need to be here, but it's a safeguard
-feat_bins = bin_data(df).dropna()
+df = bin_data(df).dropna()
+
+# re-index based on coordinates
+df['desig'] = df.apply(lambda row: str(row.values[0:6]), axis=1)
+
+#print df.head()
+
 con = MySQLdb.connect(host='localhost', user='root', passwd='', db='TweetScore')
 
-print len(df.index)
-print len(feat_bins.index)
-#feat_bins[180001:].to_sql(con=con, name="binned2", if_exists="append", flavor='mysql')
-
-
-# we're losing ~6k rows out of 172k to this NaN problem.
+#df[180001:].to_sql(con=con, name="binned", if_exists="append", flavor='mysql')
